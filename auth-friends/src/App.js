@@ -1,25 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from "react";
+
+import { Route, Link, Redirect } from "react-router-dom";
+import Login from "./components/Login";
+import FriendsList from "./components/FriendsList";
+
 import './App.css';
 
+
+
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" style={{ padding: 30 }}>
+
+      <div>
+        <div>
+          <Link to="/">
+            <button className="btn">Login</button>
+          </Link>
+
+          <Link to="/friendsList">
+            <button className="btn">Friends List</button>
+          </Link>
+        </div>
+      </div>
+
+      <Route exact path="/" component={Login} />
+
+      <Route
+        exact
+        path="/friendsList"
+        render={props => {
+          const token = localStorage.getItem("token");
+
+          if (!token) {
+            return <Redirect to="/" />;
+          }
+          return <FriendsList {...props} />;
+        }}
+      />
     </div>
+
+
+
+    
   );
 }
 

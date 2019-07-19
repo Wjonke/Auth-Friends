@@ -8,7 +8,7 @@ import './App.css';
 
 
 
-function App() {
+function App({history}) {
 
   return (
     <div className="App" style={{ padding: 30 }}>
@@ -22,9 +22,20 @@ function App() {
           <Link to="/friendsList">
             <button className="btn">Friends List</button>
           </Link>
+          
+          <button
+              className="btn"
+              onClick={() => {
+                localStorage.removeItem("token");
+                history.push("/");
+              }}
+            >
+              Logout
+            </button>
         </div>
+        
       </div>
-
+      
       <Route exact path="/" component={Login} />
 
       <Route

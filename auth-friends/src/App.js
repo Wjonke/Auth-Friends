@@ -1,24 +1,16 @@
 import React from "react";
 import { Route, Link, Redirect } from "react-router-dom";
-
+import PrivateRoute from './authorization/privateRoute'
 import Login from "./components/Login";
 import FriendsList from "./components/FriendsList";
+import FriendsForm from "./components/FriendsForm";
 
 import './App.css';
 
 
 
 function App() {
-  const PrivateRoute = ({ component: FriendsList, ...rest }) => {
-    return (
-      <Route
-        {...rest}
-        render={props => 
-          localStorage.getItem('token' ? ( <FriendsList {...props} /> ) : <Redirect to='/login'/>)
-      }
-      />
-    )
-  }
+
 
   return (
     <div className="App" style={{ padding: 30 }}>
@@ -49,6 +41,7 @@ function App() {
       <Route exact path="/" />
       <Route exact path="/login" component={Login} />
       <PrivateRoute exact path="/friends-list" component={FriendsList} />
+      <PrivateRoute exact path="/add-friend" component={FriendsForm} />
     </div>
 
 

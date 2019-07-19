@@ -5,11 +5,7 @@ const PrivateRoute = ({ component: FriendsList, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={props => 
-        localStorage.getItem('token' ? ( <FriendsList {...props} /> ) : <Redirect to='/'/>)
-    }
-    />
-  )
-}
+      render={props => localStorage.getItem('token' ? ( <FriendsList {...props} /> ) : <Redirect to='/login'/>)}
+)}
 
 export default PrivateRoute

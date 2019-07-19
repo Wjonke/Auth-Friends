@@ -6,7 +6,7 @@ import { axiosWithAuth } from "../authorization/axiosWithAuth";
 
 
 
-const Login = ({ touched, errors }) => {
+const Login = ({touched, errors }) => {
   
 
 
@@ -67,7 +67,7 @@ export default withFormik({
           console.log(res);
           localStorage.setItem("token", res.data.payload);
           formikBag.props.history.push("/friends-list");
-          formikBag.resetForm();
+          
         })
         .catch(err => {
           console.log(err);

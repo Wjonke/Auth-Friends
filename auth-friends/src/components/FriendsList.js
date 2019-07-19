@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from "react";
 import {axiosWithAuth} from "../authorization/axiosWithAuth";
 
-
 const FriendsList = () => {
   const [friends, setFriends] = useState([]);
   
   function addFriend(res) {
     setFriends(res);
   }
+  console.log(friends)
+
   
   useEffect(() => {
     axiosWithAuth()
       .get('/friends')
       .then(res => {
-        console.log(res);
+        console.log(res.data);
         addFriend(res.data);
       })
 
-      .catch(err => {console.log('err')
-        }, []);
+      .catch(err => {console.err('err')
+        }, [friends]);
+
+
 
     return (
       <div>
-                                            {/* mapping over returned data from api below */}
+        <h1>My Friends</h1>                                   {/* mapping over returned data from api below */}
         {friends.map(friend => (
               
           <div key={friend.id}>

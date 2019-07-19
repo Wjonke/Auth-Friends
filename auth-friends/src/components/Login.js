@@ -1,15 +1,14 @@
 import React from "react";
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
-import { Redirect } from "react-router-dom";
+
+import { axiosWithAuth } from "../authorization/axiosWithAuth";
+
+
 
 const Login = ({ touched, errors }) => {
-  const token = localStorage.getItem("token");
+  
 
-  if (token) {
-    return <Redirect to="/friendsList" />;
-  }
 
   return (
     <Form className="form">
@@ -43,8 +42,8 @@ const Login = ({ touched, errors }) => {
 export default withFormik({
   mapPropsToValues() {
     return {
-      username: "",
-      password: "",
+      username: "Lambda School",
+      password: "i<3Lambd4",
     };
   },
 
@@ -60,18 +59,21 @@ export default withFormik({
 
 
   handleSubmit(values, formikBag) {
-    const url ="http://localhost:5000/api/login";
-
-    axios
-      .post(url, values)
-      .then(res => {
-        console.log(res);
-        localStorage.setItem("token", res.data.payload);
-        formikBag.props.history.push("/friendsList");
-      })
-      .catch(res => {
-        console.log(res.data);
-      });
+    const url ="/login";
+    return(
+      axiosWithAuth()
+        .post(url, values)
+        .then(res => {
+          console.log(res);
+          localStorage.setItem("token", res.data.payload);
+          formikBag.props.history.push("/friends-list");
+          formikBag.resetForm();
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    )
+      
   }
 })(Login);
 

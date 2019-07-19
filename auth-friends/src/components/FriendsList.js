@@ -1,36 +1,41 @@
 import React, { useEffect, useState } from "react";
-import AxiosWithAuth from "./AxiosWithAuth";
-import AddFriend from './AddFriend';
+import {axiosWithAuth} from "../authorization/axiosWithAuth";
 
-const FriendsList = (props) => {
+
+const FriendsList = () => {
   const [friends, setFriends] = useState([]);
-  const url ="http://localhost:5000/api/friends";
+  
+  function addFriend(res) {
+    setFriends(res);
+  }
   
   useEffect(() => {
-    AxiosWithAuth()
-      .get(url)
-      .then(res => setFriends(res.data))
-      .catch(err => {console.log('oops your get request didnt work!')
-        }, [])
+    axiosWithAuth()
+      .get('/friends')
+      .then(res => {
+        console.log(res);
+        addFriend(res.data);
+      })
 
-        return (
-          <div>
-            
-            <AddFriend setFriends={setFriends} />
+      .catch(err => {console.log('err')
+        }, []);
 
+    return (
+      <div>
                                             {/* mapping over returned data from api below */}
-            {friends.map(friend => {
-              return (
-                <div key={friend.id}>
-                  {friend.name}
-                  {friend.age}
-                  {friend.email}
-                </div>
-              )
-            })}
-           </div> 
-        )
-  }, [friends])
+        {friends.map(friend => (
+              
+          <div key={friend.id}>
+            <h1>{friend.name}</h1>
+            <h2>{friend.age}</h2>
+            <h2>{friend.email}</h2>
+          </div>
+              
+        ))}
+      </div> 
+    );
+  
 }
+)} 
 
 export default FriendsList

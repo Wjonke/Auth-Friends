@@ -1,8 +1,8 @@
 import React from "react"
 import { Form, Field, withFormik } from "formik"
-import AxiosWithAuth from "./AxiosWithAuth"
+import {axiosWithAuth} from "../authorization/axiosWithAuth"
 
-const AddFriend = (props, touched, errors) => {
+const FriendsForm = (props, touched, errors) => {
   console.log("props", props)
   return (
     <Form className="form">
@@ -66,12 +66,12 @@ export default withFormik({
     const url="/friends";
 
     return (
-      AxiosWithAuth()
+      axiosWithAuth()
       .post(url, values)
       .then(res => {
         console.log(res)
         formikBag.props.setFriends(res.data)
-        formikBag.props.history.push("/friendsList");
+        formikBag.props.history.push("/friends-list");
       })
       
       .catch(error => {
@@ -79,4 +79,4 @@ export default withFormik({
       })
     )
   }
-})(AddFriend)
+})(FriendsForm)

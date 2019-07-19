@@ -1,6 +1,6 @@
 import React from "react";
-
 import { Route, Link, Redirect } from "react-router-dom";
+
 import Login from "./components/Login";
 import FriendsList from "./components/FriendsList";
 
@@ -8,18 +8,28 @@ import './App.css';
 
 
 
-function App({history}) {
+function App() {
+  const PrivateRoute = ({ component: FriendsList, ...rest }) => {
+    return (
+      <Route
+        {...rest}
+        render={props => 
+          localStorage.getItem('token' ? ( <FriendsList {...props} /> ) : <Redirect to='/login'/>)
+      }
+      />
+    )
+  }
 
   return (
     <div className="App" style={{ padding: 30 }}>
 
       <div>
         <div>
-          <Link to="/">
+          <Link to="/login">
             <button className="btn">Login</button>
           </Link>
 
-          <Link to="/friendsList">
+          <Link to="/friends-list">
             <button className="btn">Friends List</button>
           </Link>
           
@@ -27,7 +37,7 @@ function App({history}) {
               className="btn"
               onClick={() => {
                 localStorage.removeItem("token");
-                history.push("/");
+                
               }}
             >
               Logout
@@ -36,20 +46,9 @@ function App({history}) {
         
       </div>
       
-      <Route exact path="/" component={Login} />
-
-      <Route
-        exact
-        path="/friendsList"
-        render={props => {
-          const token = localStorage.getItem("token");
-
-          if (!token) {
-            return <Redirect to="/" />;
-          }
-          return <FriendsList {...props} />;
-        }}
-      />
+      <Route exact path="/" />
+      <Route exact path="/login" component={Login} />
+      <PrivateRoute exact path="/friends-list" component={FriendsList} />
     </div>
 
 

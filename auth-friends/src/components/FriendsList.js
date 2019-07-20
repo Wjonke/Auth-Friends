@@ -19,7 +19,7 @@ const FriendsList = () => {
       })
 
       .catch(err => {console.err('err')
-        }, [friends]);
+        })}, [friends]);
 
 
 
@@ -39,6 +39,6 @@ const FriendsList = () => {
     );
   
 }
-)} 
+
 
 export default FriendsList
